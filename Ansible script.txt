@@ -1,0 +1,49 @@
+/home/scrapbook/tutorial/somefile.j2
+
+/home/ubuntu/folder1
+
+
+
+---
+tasks:
+  - name: Check that the somefile.j2 exists
+    stat:
+      path: /home/scrapbook/tutorial/somefile.j2
+    register: stat_result
+
+  - name: Copy the template, if it doesnt exist already
+    template:
+      src: somefile.j2
+      dest: /home/ubuntu/folder1
+    when: stat_result.stat.exists == False
+
+
+__-_______________
+
+---
+- hosts: host01
+tasks:
+  - name: Check that the somefile.j2 exists
+    stat:
+      path: /home/scrapbook/tutorial/somefile.j2
+    register: stat_result
+
+  - name: Copy the template, if it doesnt exist already
+    template:
+      src: somefile.j2
+      dest: /home/ubuntu/folder1
+    when: stat_result.stat.exists == False
+----------------------------
+
+---
+tasks:
+  - name: Check that the somefile.j2 exists
+    stat:
+      path: /home/scrapbook/tutorial/somefile.j2
+    register: stat_result
+  - name: Copy the template, if it doesnt exist already
+    template:
+      src: /home/scrapbook/tutorial/somefile.j2
+      dest: /home/ubuntu/folder1
+    when: stat_result.stat.exists == false
+...
